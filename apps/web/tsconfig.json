@@ -1,0 +1,5 @@
+{
+  "extends": "@teejay/tsconfig/next.json",
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
+  "exclude": ["node_modules"]
+}
