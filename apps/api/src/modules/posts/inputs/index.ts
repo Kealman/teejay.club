@@ -1,0 +1,4 @@
+export * from "./create-post.input";
+export * from "./get-best-posts.input";
+export * from "./get-new-posts.input";
+export * from "./vote-post.input";

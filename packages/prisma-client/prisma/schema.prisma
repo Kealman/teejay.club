@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../dist"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String?       @unique
+  password     String
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  login        String        @unique
+  isVerified   Boolean       @default(false)
+  website      String?
+  comments     Comment[]
+  commentVotes CommentVote[]
+  invite       Invite?       @relation("Invite")
+  invites      Invite[]      @relation("Invites")
+  posts        Post[]
+  postVotes    PostVote[]
+}
+
+model Invite {
+  id        Int    @id @default(autoincrement())
+  code      String @unique
+  inviteeId Int?   @unique
+  inviterId Int
+  invitee   User?  @relation("Invite", fields: [inviteeId], references: [id], onDelete: Cascade)
+  inviter   User   @relation("Invites", fields: [inviterId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id          Int        @id @default(autoincrement())
+  title       String?
+  content     String
+  authorId    Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  score       Int        @default(0)
+  viewCount   Int        @default(0)
+  isPublished Boolean    @default(true)
+  isPinned    Boolean    @default(false)
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  votes       PostVote[]
+}
+
+model PostVote {
+  id        Int      @id @default(autoincrement())
+  sign      Int
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model Comment {
+  id        Int           @id @default(autoincrement())
+  authorId  Int
+  parentId  Int?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  postId    Int
+  score     Int           @default(0)
+  content   String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent    Comment?      @relation("Comment", fields: [parentId], references: [id], onDelete: Cascade)
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  children  Comment[]     @relation("Comment")
+  votes     CommentVote[]
+}
+
+model CommentVote {
+  id        Int      @id @default(autoincrement())
+  sign      Int
+  commentId Int?
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+}

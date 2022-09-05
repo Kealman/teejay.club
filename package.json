@@ -1,0 +1,20 @@
+{
+  "name": "teejay",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "eslint --fix '**/*.{ts,tsx}'",
+    "format": "prettier --write '{apps,packages}/**/*.{ts,tsx,md,json}'"
+  },
+  "devDependencies": {
+    "@teejay/eslint-config": "workspace:*",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=16.17.0",
+    "pnpm": ">=7.9.5"
+  },
+  "packageManager": "pnpm@7.9.5"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@teejay/typescript-paths",
+  "version": "0.0.0",
+  "bin": {
+    "tsp": "./cli.js"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.18.13",
+    "@babel/parser": "^7.18.13",
+    "@babel/traverse": "^7.18.13",
+    "fast-glob": "^3.2.11",
+    "glob": "^8.0.3",
+    "json5": "^2.2.1"
+  }
+}
