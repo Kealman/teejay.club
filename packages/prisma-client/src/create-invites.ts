@@ -11,7 +11,7 @@ async function main() {
       .map(() =>
         prisma.invite.create({
           data: {
-            inviterId: 1387,
+            inviterId: 1,
             code: randomBytes(32).toString("hex"),
           },
         })
