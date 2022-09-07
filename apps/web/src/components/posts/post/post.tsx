@@ -28,7 +28,7 @@ export const Post: FC<Props> = ({
   return (
     <Card
       className={classNames(
-        "relative flex flex-col w-full max-w-2xl",
+        "relative flex flex-col w-full md:max-w-2xl",
         className
       )}
       {...props}

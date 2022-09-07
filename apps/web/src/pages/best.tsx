@@ -42,7 +42,7 @@ export default function Top({ posts }: Props) {
   return (
     <Page title="Популярное в клубе TeeJay">
       <div className="md:max-w-2xl w-full md:mx-auto">
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-4 md:mr-4 xl:mr-0">
           {pages.map((page, i) => (
             <Fragment key={i}>
               {page.data.map((post) => (
