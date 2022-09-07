@@ -35,7 +35,7 @@ export const getBest = t.procedure
 
     return paginatePosts({
       select: select(user?.id ?? -1),
-      where,
+      where: { OR: [{ isPinned: true, isPublished: true }, where] },
       orderBy: [{ isPinned: "desc" }, { score: "desc" }, { createdAt: "desc" }],
       ...pagination,
     });
