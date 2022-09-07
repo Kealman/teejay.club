@@ -7,7 +7,8 @@
 - `apps/web` — фронтенд + бэкенд (SSR) на [TypeScript](https://www.typescriptlang.org/) + [Next.js](https://nextjs.org/);
 - `apps/web/.env.example` — пример конфига с переменными окружения для фронтенда;
 - `packages/prisma-client` — [Prisma](https://www.prisma.io/);
-- `packages/typescript-paths` — исправляет пути в `*.d.ts` файлах;
+- `packages/prisma-client/.env.example` — пример конфига с переменными окружения для [Prisma](https://www.prisma.io/);
+- `packages/typescript-paths` — исправляет алиасы в `*.d.ts` файлах, т.к. `tsc` их не компилирует;
 - `configs/eslint-config` — [ESLint](https://eslint.org/) конфиг для всего монорепозитория;
 - `configs/tsconfig` — базовый [`tsconfig.json`](https://www.typescriptlang.org/tsconfig) для всех проектов.
 
