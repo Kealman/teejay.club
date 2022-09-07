@@ -7,13 +7,12 @@ export const getBestPostsInput = paginationInput.merge(
     .object({
       of: z.union([
         z.literal("today"),
-        z.literal("yesterday"),
+        z.literal("day"),
         z.literal("week"),
         z.literal("month"),
         z.literal("year"),
       ]),
-      authorId: z.number().int().min(1),
+      authorId: z.number().int().min(1).optional(),
     })
-    .partial()
     .strict()
 );
