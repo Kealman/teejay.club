@@ -1,11 +1,11 @@
-import { getCommentReplaysInput } from "../inputs";
+import { getOneCommentInput } from "../inputs";
 import { select } from "../selector";
 
 import { t } from "@/trpc";
 import { paginateComments } from "@/utilities";
 
 export const getOne = t.procedure
-  .input(getCommentReplaysInput)
+  .input(getOneCommentInput)
   .query(({ input: { id, ...pagination }, ctx: { user } }) => {
     return paginateComments({
       select: select(user?.id ?? -1),
