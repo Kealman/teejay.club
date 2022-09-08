@@ -66,7 +66,7 @@ const UserPage: NextPage<Props> = ({ user, posts }) => {
             <div className="flex flex-row gap-x-4">
               <img
                 className="w-32 h-32 rounded"
-                src="/avatar.webp"
+                src={user.avatar}
                 alt={user.name}
               />
               <div className="flex flex-col gap-y-2 justify-end">

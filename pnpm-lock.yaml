@@ -58,6 +58,8 @@ importers:
   apps/web:
     specifiers:
       '@babel/core': ^7.18.13
+      '@headlessui/react': ^1.7.0
+      '@heroicons/react': ^2.0.10
       '@tanstack/react-query': ^4.2.3
       '@teejay/api': workspace:*
       '@teejay/eslint-config': workspace:*
@@ -84,6 +86,8 @@ importers:
       typescript: ^4.8.2
       unified: ^10.1.2
     dependencies:
+      '@headlessui/react': 1.7.0_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.10_react@18.2.0
       '@tanstack/react-query': 4.2.3_biqbaboplfbrettd7655fr4n2y
       '@teejay/api': link:../api
       '@trpc/client': 10.0.0-proxy-alpha.59_dkwjcmc3ydgkzffzun34zj62xm
@@ -441,6 +445,25 @@ packages:
     resolution: {integrity: sha512-cTKBV2J9+u6VaKDhX7HepSfPSzw+F+TSd+k0wzifj4rG+4E5PjSFJCk19P8R6tr/72cuzgGd+mbB3jFT6lvAgw==}
     dependencies:
       fast-json-stringify: 5.2.0
+    dev: false
+
+  /@headlessui/react/1.7.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-/nDsijOXRwXVLpUBEiYuWguIBSIN3ZbKyah+KPUiD8bdIKtX1U/k+qLYUEr7NCQnSF2e4w1dr8me42ECuG3cvw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@heroicons/react/2.0.10_react@18.2.0:
+    resolution: {integrity: sha512-Ufr+pgAElNiRCSklnHGOR10bXb02BLlosvbDK7sCRUMOcQ3R/HCXTfXs4BUkYZ4dKpx6l5dUD06VSW1dTpTEDw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.10.4:

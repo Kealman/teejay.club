@@ -1,4 +1,4 @@
-import { createPostInput, InferInput, InputError } from "@teejay/api";
+import { createPostInput, InferInput, InputError, TSubsite } from "@teejay/api";
 import { makeAutoObservable } from "mobx";
 import { NextRouter } from "next/router";
 import { ChangeEvent, FormEvent } from "react";
@@ -11,6 +11,16 @@ export class NewPostFormState {
     private router: NextRouter
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });
+  }
+
+  private _subsite?: TSubsite = undefined;
+
+  get subsite() {
+    return this._subsite;
+  }
+
+  setSubsite(value?: TSubsite) {
+    this._subsite = value;
   }
 
   private _title = "";
@@ -59,6 +69,7 @@ export class NewPostFormState {
       const input = createPostInput.parse({
         title: this.title,
         content: this.content,
+        subsiteId: this.subsite?.id,
       });
       await this.createPostTask.run(input);
     } catch (error) {

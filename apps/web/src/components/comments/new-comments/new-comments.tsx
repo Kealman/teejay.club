@@ -27,13 +27,13 @@ export const NewComments: FC = () => {
           >
             <a className="flex flex-col gap-y-1 text-sm">
               <div className="flex flex-row items-center">
-                <div className="relative w-5 h-5 rounded overflow-hidden">
-                  <Image
-                    layout="fill"
-                    alt={comment.author.name}
-                    src="/avatar.webp"
-                  />
-                </div>
+                <Image
+                  className="w-5 h-5 rounded"
+                  width={20}
+                  height={20}
+                  alt={comment.author.name}
+                  src={comment.author.avatar}
+                />
                 <div className="ml-2 flex flex-row gap-x-1 items-center">
                   <div className="leading-5 font-medium">
                     {comment.author.name}

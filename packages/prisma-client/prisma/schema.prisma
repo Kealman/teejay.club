@@ -10,14 +10,15 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement())
+  login        String        @unique
   email        String?       @unique
-  password     String
   name         String
+  password     String
+  avatar       String        @default("/images/users/avatar.webp")
+  website      String?
+  isVerified   Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  login        String        @unique
-  isVerified   Boolean       @default(false)
-  website      String?
   comments     Comment[]
   commentVotes CommentVote[]
   invite       Invite?       @relation("Invite")
@@ -35,18 +36,31 @@ model Invite {
   inviter   User   @relation("Invites", fields: [inviterId], references: [id], onDelete: Cascade)
 }
 
+model Subsite {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  slug        String   @unique
+  avatar      String
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  posts       Post[]
+}
+
 model Post {
   id          Int        @id @default(autoincrement())
   title       String?
   content     String
   authorId    Int
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  subsiteId   Int?
   score       Int        @default(0)
   viewCount   Int        @default(0)
   isPublished Boolean    @default(true)
   isPinned    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  subsite     Subsite?   @relation(fields: [subsiteId], references: [id], onDelete: Cascade)
   comments    Comment[]
   votes       PostVote[]
 }

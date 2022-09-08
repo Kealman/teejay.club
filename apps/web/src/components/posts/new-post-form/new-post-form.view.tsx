@@ -1,8 +1,11 @@
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { observer } from "mobx-react-lite";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
-import { useVanillaTRPC } from "../../../utilities";
+import { classNames, trpc, useVanillaTRPC } from "../../../utilities";
 import { Spinner } from "../../spinner";
 import { TextArea } from "../../text-area";
 
@@ -10,12 +13,103 @@ import { NewPostFormState } from "./new-post-form.state";
 
 export const NewPostForm = observer(() => {
   const trpcClient = useVanillaTRPC();
+  const userQuery = trpc.users.getMe.useQuery();
   const router = useRouter();
   const [state] = useState(() => new NewPostFormState(trpcClient, router));
+  const subsitesQuery = trpc.subsites.getAll.useQuery();
+  const subsites = subsitesQuery.data;
+  const user = userQuery.data;
+
+  if (!user || !subsites) {
+    return null;
+  }
 
   return (
-    <div className="relative flex flex-col gap-y-3 content">
-      <Spinner isSpinning={state.createPostTask.isRunning} />
+    <div className="relative flex flex-col gap-y-3">
+      <Spinner
+        isSpinning={subsitesQuery.isFetching || state.createPostTask.isRunning}
+      />
+      <div className="flex -my-2 flex-row justify-between">
+        <Listbox
+          as="div"
+          className="relative"
+          value={state.subsite}
+          onChange={state.setSubsite}
+        >
+          <Listbox.Button
+            className={classNames(
+              "flex flex-row gap-x-2 items-center py-2 text-sm rounded",
+              "text-gray-900 transition-colors duration-300"
+            )}
+          >
+            <Image
+              className="w-6 h-6 rounded"
+              width={24}
+              height={24}
+              src={state.subsite?.avatar ?? user.avatar}
+            />
+            {state.subsite?.name ?? "Мой блог"}
+            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Listbox.Options
+              className={classNames(
+                "absolute -left-4 origin-top-left mt-2 w-56 max-h-56 z-10",
+                "bg-white shadow-lg ring-1 ring-amber-500 ring-opacity-50 rounded-md",
+                "overflow-auto focus:outline-none"
+              )}
+            >
+              <Listbox.Option value={undefined}>
+                <a
+                  href="#"
+                  className={classNames(
+                    "flex flex-row gap-x-2 items-center px-4 py-2 text-sm",
+                    "text-gray-900 hover:bg-gray-100"
+                  )}
+                >
+                  <Image
+                    className="w-6 h-6 rounded"
+                    width={24}
+                    height={24}
+                    src={user.avatar}
+                    alt={user.name}
+                  />
+                  Мой блог
+                </a>
+              </Listbox.Option>
+              <hr />
+              {subsites.map((subsite) => (
+                <Listbox.Option key={subsite.id} value={subsite}>
+                  <a
+                    href="#"
+                    className={classNames(
+                      "flex flex-row gap-x-2 items-center px-4 py-2 text-sm",
+                      "text-gray-900 hover:bg-gray-100"
+                    )}
+                  >
+                    <Image
+                      className="w-6 h-6 rounded"
+                      width={24}
+                      height={24}
+                      src={subsite.avatar}
+                      alt={subsite.name}
+                    />
+                    {subsite.name}
+                  </a>
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </Listbox>
+      </div>
       <form className="flex flex-col gap-y-3" onSubmit={state.handleSubmit}>
         {state.createPostTask.isFaulted && (
           <div className="text-red-500">
@@ -42,7 +136,7 @@ export const NewPostForm = observer(() => {
           <div className="text-red-500">{state.errors["content"]}</div>
         )}
 
-        <div className="flex flex-row justify-between items-center flex-wrap gap-3">
+        <div className="flex flex-row justify-between items-center flex-wrap gap-3 content">
           <div className="flex flex-row items-center gap-x-1">
             <svg
               className="w-5 h-5 fill-gray-400"

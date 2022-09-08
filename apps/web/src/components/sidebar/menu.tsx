@@ -13,9 +13,10 @@ export const Menu: FC = () => {
           <Item
             icon={
               <svg
-                className={classNames("w-6 h-6", {
-                  "stroke-amber-500": router.pathname === "/",
-                  "stroke-black": router.pathname !== "/",
+                className={classNames("w-6 h-6 stroke-black", {
+                  "!stroke-amber-500":
+                    router.pathname === "/" ||
+                    router.pathname.startsWith("/top/"),
                 })}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -44,9 +45,8 @@ export const Menu: FC = () => {
           <Item
             icon={
               <svg
-                className={classNames("w-6 h-6", {
-                  "stroke-amber-500": router.pathname === "/new",
-                  "stroke-black": router.pathname !== "/new",
+                className={classNames("w-6 h-6 stroke-black", {
+                  "!stroke-amber-500": router.pathname === "/new",
                 })}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -187,7 +187,7 @@ const Item: FC<ItemProps> = ({
 }) => (
   <div
     className={classNames(
-      "flex flex-row items-center rounded bg-white px-2 py-2 shadow-sm hover:shadow-md cursor-pointer transition-all duration-300",
+      "flex flex-row items-center rounded bg-white px-2 py-2 shadow-sm hover:shadow-md active:shadow-sm cursor-pointer transition-all duration-300",
       className
     )}
     {...props}

@@ -2,10 +2,10 @@ import { z } from "zod";
 
 import { paginationInput } from "@/modules/common";
 
-export const getBestPostsInput = paginationInput.merge(
+export const getTopPostsInput = paginationInput.merge(
   z
     .object({
-      of: z.union([
+      interval: z.union([
         z.literal("today"),
         z.literal("day"),
         z.literal("week"),
@@ -13,6 +13,7 @@ export const getBestPostsInput = paginationInput.merge(
         z.literal("year"),
       ]),
       authorId: z.number().int().min(1).optional(),
+      subsiteId: z.number().int().min(1).optional(),
     })
     .strict()
 );

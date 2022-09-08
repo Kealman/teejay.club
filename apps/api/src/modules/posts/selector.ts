@@ -12,13 +12,11 @@ export const select = (userId: number) =>
     isPinned: true,
     createdAt: true,
     updatedAt: true,
-
+    subsite: true,
     author: { select: users.select() },
-
     votes: {
       where: { userId },
       select: postVotes.select(),
     },
-
     _count: { select: { comments: true } },
   });
