@@ -1,5 +1,6 @@
 import { AppRouter } from "@teejay/api";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 
 import { useInfiniteScroll } from "../../../hooks";
 import { trpc } from "../../../utilities";
@@ -9,6 +10,8 @@ import { Spinner } from "../../spinner";
 import { Comment } from "../comment";
 import { NewCommentForm } from "../new-comment-form";
 
+import CommentsState from "./comments.state";
+
 type Props = {
   postId: number;
 
@@ -16,6 +19,7 @@ type Props = {
 };
 
 export const Comments = observer<Props>(({ postId, comments }) => {
+  const [state] = useState(() => new CommentsState());
   const commentsQuery = trpc.comments.getNew.useInfiniteQuery(
     {
       postId,
@@ -49,14 +53,23 @@ export const Comments = observer<Props>(({ postId, comments }) => {
           many="комментариев"
         />
       </div>
-      <div className="relative mt-3 flex flex-col gap-y-2">
+      <div className="relative mt-3 flex flex-col">
         <Spinner isSpinning={commentsQuery.isLoading} />
         {total > 10 && (
           <NewCommentForm postId={postId} onCreate={commentsQuery.refetch} />
         )}
         {commentsQuery.data?.pages.flatMap((page) =>
           page.data.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              postId={postId}
+              comment={comment}
+              state={state}
+              onReply={commentsQuery.refetch}
+              level={0}
+              parentChilds={[]}
+              parentIds={[]}
+            />
           ))
         )}
         <NewCommentForm postId={postId} onCreate={commentsQuery.refetch} />

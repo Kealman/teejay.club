@@ -6,6 +6,7 @@ export const select = (userId: number) =>
     content: true,
     score: true,
     postId: true,
+    parentId: true,
     createdAt: true,
     post: { select: { id: true, title: true } },
     author: { select: { id: true, name: true, isVerified: true } },
@@ -13,4 +14,27 @@ export const select = (userId: number) =>
       where: { userId },
       select: { id: true, sign: true },
     },
+    children: {
+      include: {
+        children: {
+          include: {
+            _count: { select: { children: true } },
+            post: { select: { id: true, title: true } },
+            author: { select: { id: true, name: true, isVerified: true } },
+            votes: {
+              where: { userId },
+              select: { id: true, sign: true },
+            },
+          },
+        },
+        _count: { select: { children: true } },
+        post: { select: { id: true, title: true } },
+        author: { select: { id: true, name: true, isVerified: true } },
+        votes: {
+          where: { userId },
+          select: { id: true, sign: true },
+        },
+      },
+    },
+    _count: { select: { children: true } },
   });
