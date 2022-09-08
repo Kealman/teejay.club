@@ -14,6 +14,7 @@ export const getNew = t.procedure
           id: postId,
           isPublished: true,
         },
+        parentId: null,
         authorId,
       },
       orderBy: [{ createdAt: "desc" }],

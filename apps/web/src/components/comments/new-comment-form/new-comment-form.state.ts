@@ -8,7 +8,8 @@ class NewCommentFormState {
   constructor(
     public readonly trpcClient: VanillaTRPC,
     private postId: number,
-    private onCreate?: () => void
+    private onCreate?: () => void,
+    private parentId?: number
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });
   }
@@ -48,6 +49,7 @@ class NewCommentFormState {
     try {
       const input = createCommentInput.parse({
         postId: this.postId,
+        parentId: this.parentId,
         content: this.text.trim(),
       });
       await this.createCommentTask.run(input);
