@@ -9,7 +9,7 @@
     "migrate": "prisma migrate dev"
   },
   "prisma": {
-    "seed": "ts-node ../src/admin.ts"
+    "seed": "ts-node ../seeds/admin.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

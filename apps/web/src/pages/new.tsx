@@ -23,10 +23,7 @@ export default function New({ posts }: Props) {
         pages: [posts],
         pageParams: [],
       },
-      getNextPageParam: (page) => {
-        console.log(page?.meta);
-        return page.meta.nextCursor;
-      },
+      getNextPageParam: (page) => page.meta.nextCursor,
     }
   );
 

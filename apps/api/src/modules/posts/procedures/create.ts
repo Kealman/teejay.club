@@ -6,11 +6,16 @@ import { prisma } from "@/prisma";
 import { t } from "@/trpc";
 
 export const create = t.procedure
-  .input(createPostInput)
   .use(authGuard)
-  .mutation(({ input: { title, content }, ctx: { user } }) => {
+  .input(createPostInput)
+  .mutation(({ input: { title, content, subsiteId }, ctx: { user } }) => {
     return prisma.post.create({
-      data: { title, content, authorId: user.id },
+      data: {
+        title,
+        content,
+        authorId: user.id,
+        subsiteId,
+      },
       select: select(user.id),
     });
   });

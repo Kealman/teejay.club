@@ -7,10 +7,25 @@ export const select = (userId: number) =>
     score: true,
     postId: true,
     createdAt: true,
-    post: { select: { id: true, title: true } },
-    author: { select: { id: true, name: true, isVerified: true } },
+    post: {
+      select: {
+        id: true,
+        title: true,
+      },
+    },
+    author: {
+      select: {
+        id: true,
+        name: true,
+        avatar: true,
+        isVerified: true,
+      },
+    },
     votes: {
       where: { userId },
-      select: { id: true, sign: true },
+      select: {
+        id: true,
+        sign: true,
+      },
     },
   });

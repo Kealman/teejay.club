@@ -6,6 +6,7 @@ export type { TPost } from "@/modules/posts";
 export type { TPostVote } from "@/modules/post-votes";
 export type { TComment } from "@/modules/comments";
 export type { TCommentVote } from "@/modules/comment-votes";
+export type { TSubsite } from "@/modules/subsites";
 
 export { ZodError as InputError } from "zod";
 export type { infer as InferInput } from "zod";

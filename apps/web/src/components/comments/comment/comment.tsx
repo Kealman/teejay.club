@@ -34,9 +34,13 @@ export const Comment: FC<Props> = ({ comment }) => {
         })}
       >
         <div className="flex flex-row items-center">
-          <div className="relative w-8 h-8 rounded-full overflow-hidden">
-            <Image layout="fill" alt={comment.author.name} src="/avatar.webp" />
-          </div>
+          <Image
+            className="w-8 h-8 rounded-full"
+            width={32}
+            height={32}
+            alt={comment.author.name}
+            src={comment.author.avatar}
+          />
           <div className="ml-2 flex flex-col">
             <div className="flex flex-row items-center">
               <Link href={`/users/${comment.author.id}`}>

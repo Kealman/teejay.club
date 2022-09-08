@@ -37,12 +37,14 @@ model Invite {
 }
 
 model Subsite {
-  id        Int      @id @default(autoincrement())
-  name      String
-  avatar    String
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-  Post      Post[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  slug        String   @unique
+  avatar      String
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  posts       Post[]
 }
 
 model Post {
