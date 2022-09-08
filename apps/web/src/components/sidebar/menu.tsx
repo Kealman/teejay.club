@@ -1,3 +1,4 @@
+import { ListBulletIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
@@ -62,6 +63,22 @@ export const Menu: FC = () => {
             }
           >
             Свежее
+          </Item>
+        </a>
+      </Link>
+      <Link href="/subsites">
+        <a>
+          <Item
+            icon={
+              <ListBulletIcon
+                className={classNames("w-6 h-6 stroke-black", {
+                  "!stroke-amber-500": router.pathname === "/subsites",
+                })}
+                strokeWidth={1.5}
+              />
+            }
+          >
+            Подсайты
           </Item>
         </a>
       </Link>
