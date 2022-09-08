@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { paginationInput } from "@/modules/common";
 
-export const getCommentReplaysInput = paginationInput.merge(
+export const getOneCommentInput = paginationInput.merge(
   z
     .object({
       id: z.number().int().min(1),
