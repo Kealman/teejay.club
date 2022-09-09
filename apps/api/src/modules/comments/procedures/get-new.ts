@@ -16,7 +16,7 @@ export const getNew = t.procedure
         },
         authorId,
       },
-      orderBy: [{ createdAt: "desc" }],
+      orderBy: [{ createdAt: "asc" }],
       ...pagination,
     });
   });
