@@ -6,6 +6,7 @@ export const select = () =>
     name: true,
     avatar: true,
     isVerified: true,
+    blockedAt: true,
     updatedAt: true,
     createdAt: true,
   });
