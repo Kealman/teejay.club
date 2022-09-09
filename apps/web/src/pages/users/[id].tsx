@@ -70,6 +70,11 @@ const UserPage: NextPage<Props> = ({ user, posts }) => {
                 alt={user.name}
               />
               <div className="flex flex-col gap-y-2 justify-end">
+                {user.blockedAt && (
+                  <p className="text-red-500 font-medium">
+                    Пользователь заблокирован.
+                  </p>
+                )}
                 <h1 className="flex flex-row items-center !text-4xl">
                   {user.name}{" "}
                   {user.isVerified && (
