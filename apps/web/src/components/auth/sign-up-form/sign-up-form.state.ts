@@ -9,7 +9,7 @@ export class SignUpFormState {
   constructor(
     public readonly trpcClient: VanillaTRPC,
     private router: NextRouter,
-    private invite: TInvite
+    private invite?: TInvite
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });
   }
@@ -74,7 +74,7 @@ export class SignUpFormState {
     this.errors = {};
     try {
       const input = await signUpInput.parseAsync({
-        code: this.invite.code,
+        code: this.invite?.code,
 
         login: this.login,
         email: this.email.length ? this.email : undefined,

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { useVanillaTRPC } from "../../../utilities";
 import { Field, Form, Input } from "../../form";
+import { Link } from "../../link";
 import { Spinner } from "../../spinner";
 
 import { SignInFormState } from "./sign-in-form.state";
@@ -36,7 +37,13 @@ export const SignInForm = observer(() => {
           onChange={state.handlePasswordChange}
         />
       </Field>
-      <div className="flex flex-row justify-end">
+      <div className="flex flex-row justify-end gap-x-2">
+        <Link
+          href="/sign-up"
+          className="px-3 py-1 rounded bg-white text-blue border-none cursor-pointer"
+        >
+          Зарегистрироваться
+        </Link>
         <button
           type="submit"
           className="px-3 py-1 rounded bg-blue-500 text-white cursor-pointer"
