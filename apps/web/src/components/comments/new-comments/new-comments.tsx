@@ -5,8 +5,8 @@ import { FC } from "react";
 import { formatDistanceShort, trpc } from "../../../utilities";
 
 export const NewComments: FC = () => {
-  const commentsQuery = trpc.comments.getNew.useQuery(
-    { take: 10 },
+  const commentsQuery = trpc.comments.getMany.useQuery(
+    { sort: "new", take: 10 },
     { refetchInterval: 5000 }
   );
 
