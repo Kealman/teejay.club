@@ -51,7 +51,8 @@ model Subsite {
 model Post {
   id          Int        @id @default(autoincrement())
   title       String?
-  content     String
+  contentV1   String?
+  contentV2   Json?
   authorId    Int
   subsiteId   Int?
   score       Int        @default(0)

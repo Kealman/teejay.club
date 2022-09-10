@@ -12,7 +12,7 @@ export const create = t.procedure
     return prisma.post.create({
       data: {
         title,
-        content,
+        contentV2: content,
         authorId: user.id,
         subsiteId,
       },

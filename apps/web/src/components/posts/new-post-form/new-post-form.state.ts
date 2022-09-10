@@ -1,3 +1,4 @@
+import { OutputData } from "@editorjs/editorjs";
 import { createPostInput, InferInput, InputError, TSubsite } from "@teejay/api";
 import { makeAutoObservable } from "mobx";
 import { NextRouter } from "next/router";
@@ -33,14 +34,14 @@ export class NewPostFormState {
     this._title = event.target.value;
   };
 
-  private _content = "";
+  private _content: OutputData = { blocks: [] };
 
   get content() {
     return this._content;
   }
 
-  handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    this._content = event.target.value;
+  setContent = (value: OutputData) => {
+    this._content = value;
   };
 
   private _errors: Record<string, string[]> = {};

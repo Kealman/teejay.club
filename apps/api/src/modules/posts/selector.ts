@@ -6,7 +6,8 @@ export const select = (userId: number) =>
   Prisma.validator<Prisma.PostSelect>()({
     id: true,
     title: true,
-    content: true,
+    contentV1: true,
+    contentV2: true,
     score: true,
     viewCount: true,
     isPinned: true,

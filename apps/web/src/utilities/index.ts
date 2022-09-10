@@ -5,3 +5,4 @@ export * from "./task";
 export * from "./trpc";
 export * from "./transform-input-error";
 export * from "./format-distance-short";
+export * from "./sanitinze-html";

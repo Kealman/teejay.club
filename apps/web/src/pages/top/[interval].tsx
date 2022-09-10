@@ -35,7 +35,7 @@ export const getServerSideProps = withInitialData(
       take: 10,
     });
     if (!input.success) {
-      console.log(input.error);
+      console.error(input.error);
       return { notFound: true };
     }
 
