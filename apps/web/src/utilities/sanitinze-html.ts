@@ -1,6 +1,6 @@
 import sanitize from "sanitize-html";
 
-export const sanitizeHtml = (html: string, isSummary) =>
+export const sanitizeHtml = (html: string, isSummary: boolean) =>
   sanitize(html, {
     allowedTags: ["a", "b", "i"].filter((tag) => {
       if (!isSummary) {
