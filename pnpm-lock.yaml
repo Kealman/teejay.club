@@ -64,6 +64,7 @@ importers:
       '@editorjs/header': ^2.6.2
       '@editorjs/list': ^1.7.0
       '@editorjs/quote': ^2.4.0
+      '@editorjs/simple-image': ^1.4.1
       '@headlessui/react': ^1.7.0
       '@heroicons/react': ^2.0.10
       '@tanstack/react-query': ^4.2.3
@@ -101,6 +102,7 @@ importers:
       '@editorjs/header': 2.6.2
       '@editorjs/list': 1.7.0
       '@editorjs/quote': 2.4.0
+      '@editorjs/simple-image': 1.4.1
       '@headlessui/react': 1.7.0_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.10_react@18.2.0
       '@tanstack/react-query': 4.2.3_biqbaboplfbrettd7655fr4n2y
@@ -431,6 +433,10 @@ packages:
 
   /@editorjs/quote/2.4.0:
     resolution: {integrity: sha512-IWOBWjL2ngPP63GcIAltyD9kc7OVZFma4kS+T5JRHvKKDspYsnmrxsbRmCPc+coZQzqPxXHkiOZuNMdmGX/Y3w==}
+    dev: false
+
+  /@editorjs/simple-image/1.4.1:
+    resolution: {integrity: sha512-8lqcMYKrxhnDNasqq4Id9/SwXymSofVb4SJBC7gQoJmNG9bfRgVEXLsEUnuLzn8ixkAYlK2oNTc7ioZdD8bEOw==}
     dev: false
 
   /@esbuild/linux-loong64/0.15.7:
