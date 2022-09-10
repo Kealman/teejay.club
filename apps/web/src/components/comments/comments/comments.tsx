@@ -12,13 +12,14 @@ import { NewCommentForm } from "../new-comment-form";
 type Props = {
   postId: number;
 
-  comments: AppRouter["comments"]["getNew"]["_def"]["_output_out"];
+  comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
 };
 
 export const Comments = observer<Props>(({ postId, comments }) => {
-  const commentsQuery = trpc.comments.getNew.useInfiniteQuery(
+  const commentsQuery = trpc.comments.getMany.useInfiniteQuery(
     {
       postId,
+      sort: "old",
       take: 20,
     },
     {

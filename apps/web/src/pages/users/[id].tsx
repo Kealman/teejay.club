@@ -22,7 +22,7 @@ export const getServerSideProps = withInitialData(
     GetServerSidePropsResult<{
       user: TUser;
       posts: AppRouter["posts"]["getNew"]["_def"]["_output_out"];
-      comments: AppRouter["comments"]["getNew"]["_def"]["_output_out"];
+      comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
     }>
   > => {
     if (
@@ -44,7 +44,7 @@ export const getServerSideProps = withInitialData(
       const [user, posts, comments] = await Promise.all([
         trpc.users.getOne.query({ id }),
         trpc.posts.getNew.query({ authorId: id }),
-        trpc.comments.getNew.query({ authorId: id }),
+        trpc.comments.getMany.query({ authorId: id }),
       ]);
 
       return { props: { user, posts, comments } };

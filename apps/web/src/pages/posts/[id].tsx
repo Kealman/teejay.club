@@ -18,7 +18,7 @@ export const getServerSideProps = withInitialData(
   ): Promise<
     GetServerSidePropsResult<{
       post: TPost;
-      comments: AppRouter["comments"]["getNew"]["_def"]["_output_out"];
+      comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
     }>
   > => {
     if (
@@ -39,7 +39,7 @@ export const getServerSideProps = withInitialData(
     try {
       const [post, comments] = await Promise.all([
         trpc.posts.getOne.query({ id }),
-        trpc.comments.getNew.query({ postId: id, take: 20 }),
+        trpc.comments.getMany.query({ postId: id, sort: "old", take: 20 }),
       ]);
       return { props: { post, comments } };
     } catch (error) {
