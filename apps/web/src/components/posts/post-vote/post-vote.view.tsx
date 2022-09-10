@@ -1,6 +1,6 @@
 import { TPost } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { classNames, useVanillaTRPC } from "../../../utilities";
 
@@ -10,7 +10,10 @@ type Props = { post: TPost };
 
 export const PostVote = observer<Props>(({ post }) => {
   const trpcClient = useVanillaTRPC();
-  const [state] = useState(() => new PostVoteState(trpcClient, post));
+  const state = useMemo(
+    () => new PostVoteState(trpcClient, post),
+    [post, trpcClient]
+  );
   return (
     <div className="ml-auto flex flex-row items-center text-sm">
       <button

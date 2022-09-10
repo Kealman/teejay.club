@@ -1,6 +1,6 @@
 import { TComment } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { classNames, useVanillaTRPC } from "../../../utilities";
 
@@ -10,7 +10,10 @@ type Props = { comment: TComment };
 
 export const CommentVote = observer<Props>(({ comment }) => {
   const trpcClient = useVanillaTRPC();
-  const [state] = useState(() => new CommentVoteState(trpcClient, comment));
+  const state = useMemo(
+    () => new CommentVoteState(trpcClient, comment),
+    [comment, trpcClient]
+  );
   return (
     <div className="ml-auto flex flex-row items-center gap-x-1 text-sm">
       <button
