@@ -108,8 +108,8 @@ export const Post: FC<Props> = ({
         </div>
       </div>
       {isPreview ? (
-        <Link href={`/posts/${post.id}`}>
-          <div className="font-bold text-xl mt-3">{post.title}</div>
+        <Link href={`/posts/${post.id}`} className="mt-3 flex flex-col gap-y-2">
+          <div className="font-bold text-xl">{post.title}</div>
           {post.contentV1 ? (
             <Markdown isSummary>{post.contentV1 ?? ""}</Markdown>
           ) : (
