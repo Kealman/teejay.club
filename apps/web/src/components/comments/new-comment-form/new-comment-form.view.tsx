@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { classNames, useVanillaTRPC } from "../../../utilities";
 import { Spinner } from "../../spinner";
@@ -14,8 +14,9 @@ type Props = {
 
 export const NewCommentForm = observer<Props>(({ postId, onCreate }) => {
   const trpcClient = useVanillaTRPC();
-  const [state] = useState(
-    () => new NewCommentFormState(trpcClient, postId, onCreate)
+  const state = useMemo(
+    () => new NewCommentFormState(trpcClient, postId, onCreate),
+    [onCreate, postId, trpcClient]
   );
   const [isFocused, setIsFocused] = useState<boolean>(false);
   return (
