@@ -25,7 +25,7 @@ export const getServerSideProps = withInitialData(
       });
       return { props: { invite } };
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return { notFound: true };
     }
   }

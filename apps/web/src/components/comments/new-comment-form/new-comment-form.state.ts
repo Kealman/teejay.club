@@ -52,7 +52,7 @@ class NewCommentFormState {
       });
       await this.createCommentTask.run(input);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 }

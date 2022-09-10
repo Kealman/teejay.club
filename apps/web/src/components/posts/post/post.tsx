@@ -1,3 +1,4 @@
+import { OutputData } from "@editorjs/editorjs";
 import { TPost } from "@teejay/api";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -7,6 +8,7 @@ import { FC, Fragment } from "react";
 import { classNames } from "../../../utilities";
 import { Card } from "../../card";
 import { Markdown } from "../../markdown";
+import { Renderer } from "../../renderer";
 import { PostVote } from "../post-vote";
 
 const RelativeDate = dynamic(
@@ -108,14 +110,18 @@ export const Post: FC<Props> = ({
         <Link href={`/posts/${post.id}`}>
           <a>
             <div className="font-bold text-xl mt-3">{post.title}</div>
-            <Markdown isSummary>{post.content}</Markdown>
+            <Markdown isSummary>{post.contentV1 ?? ""}</Markdown>
           </a>
         </Link>
       ) : (
-        <Fragment>
-          <div className="font-bold text-xl mt-3">{post.title}</div>
-          <Markdown>{post.content}</Markdown>
-        </Fragment>
+        <div className="mt-3 flex flex-col gap-y-2">
+          <div className="font-bold text-xl">{post.title}</div>
+          {post.contentV1 ? (
+            <Markdown>{post.contentV1}</Markdown>
+          ) : (
+            <Renderer>{post.contentV2 as unknown as OutputData}</Renderer>
+          )}
+        </div>
       )}
       <div className="mt-3 flex flex-row gap-x-2 text-gray-900 fill-gray-900 text-sm">
         <a

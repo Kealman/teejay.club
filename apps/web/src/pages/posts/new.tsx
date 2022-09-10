@@ -13,7 +13,7 @@ type Props = void;
 const NewPostPage: NextPage<Props> = () => {
   return (
     <Page title="Новый пост в клуб TeeJay" description="">
-      <Card className="md:max-w-2xl w-full md:mx-auto">
+      <Card className="md:max-w-3xl w-full md:mx-auto">
         <NewPostForm />
       </Card>
       <NewComments />
