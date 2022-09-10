@@ -1,11 +1,11 @@
 import { TInvite } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useVanillaTRPC } from "../../../utilities";
 import { Field, Form, Input } from "../../form";
+import { Link } from "../../link";
 import { Spinner } from "../../spinner";
 
 import { SignUpFormState } from "./sign-up-form.state";
@@ -27,11 +27,7 @@ export const SignUpForm = observer<Props>(({ invite }) => {
         <div className="border-l-8 border-green-500 bg-green-50 text-green-900 -mx-4 px-4 py-4 flex flex-col gap-y-3">
           <p>Вы успешно вступили в клуб TeeJay.</p>
           <p>
-            Теперь вы можете{" "}
-            <Link href="/sign-in">
-              <a>войти</a>
-            </Link>{" "}
-            на сайт.
+            Теперь вы можете <Link href="/sign-in">войти</Link> на сайт.
           </p>
         </div>
       </Form>

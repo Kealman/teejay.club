@@ -2,11 +2,11 @@ import { OutputData } from "@editorjs/editorjs";
 import { TPost } from "@teejay/api";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { FC, Fragment } from "react";
 
 import { classNames } from "../../../utilities";
 import { Card } from "../../card";
+import { Link } from "../../link";
 import { Markdown } from "../../markdown";
 import { Renderer } from "../../renderer";
 import { PostVote } from "../post-vote";
@@ -56,17 +56,18 @@ export const Post: FC<Props> = ({
       <div className="flex flex-row items-center justify-between text-sm">
         <div className="flex flex-row items-center gap-x-4">
           {post.subsite && (
-            <Link href={`/subsites/${post.subsite.slug}`}>
-              <a className="flex flex-row gap-x-2 items-center">
-                <Image
-                  className="h-6 w-6 rounded"
-                  width={24}
-                  height={24}
-                  alt={post.subsite.name}
-                  src={post.subsite.avatar}
-                />
-                <div className="font-medium text-sm">{post.subsite.name}</div>
-              </a>
+            <Link
+              href={`/subsites/${post.subsite.slug}`}
+              className="flex flex-row gap-x-2 items-center"
+            >
+              <Image
+                className="h-6 w-6 rounded"
+                width={24}
+                height={24}
+                alt={post.subsite.name}
+                src={post.subsite.avatar}
+              />
+              <div className="font-medium text-sm">{post.subsite.name}</div>
             </Link>
           )}
           <div className="flex flex-row gap-x-2 items-center">
@@ -108,10 +109,14 @@ export const Post: FC<Props> = ({
       </div>
       {isPreview ? (
         <Link href={`/posts/${post.id}`}>
-          <a>
-            <div className="font-bold text-xl mt-3">{post.title}</div>
+          <div className="font-bold text-xl mt-3">{post.title}</div>
+          {post.contentV1 ? (
             <Markdown isSummary>{post.contentV1 ?? ""}</Markdown>
-          </a>
+          ) : (
+            <Renderer isSummary>
+              {post.contentV2 as unknown as OutputData}
+            </Renderer>
+          )}
         </Link>
       ) : (
         <div className="mt-3 flex flex-col gap-y-2">

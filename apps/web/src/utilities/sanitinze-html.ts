@@ -1,8 +1,13 @@
 import sanitize from "sanitize-html";
 
-export const sanitizeHtml = (html: string) =>
+export const sanitizeHtml = (html: string, isSummary) =>
   sanitize(html, {
-    allowedTags: ["a", "b", "i"],
+    allowedTags: ["a", "b", "i"].filter((tag) => {
+      if (!isSummary) {
+        return tag;
+      }
+      return tag !== "a";
+    }),
     allowedAttributes: { a: ["href", "target"] },
     allowedSchemes: ["http", "https"],
     transformTags: {
