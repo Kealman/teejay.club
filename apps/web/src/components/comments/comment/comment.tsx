@@ -1,11 +1,11 @@
 import { TComment } from "@teejay/api";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
 import { classNames } from "../../../utilities";
+import { Link } from "../../link";
 import { CommentVote } from "../comment-vote";
 
 const RelativeDate = dynamic(
@@ -44,11 +44,9 @@ export const Comment: FC<Props> = ({ comment }) => {
           <div className="ml-2 flex flex-col">
             <div className="flex flex-row items-center">
               <Link href={`/users/${comment.author.id}`}>
-                <a>
-                  <div className="text-sm leading-5 font-medium">
-                    {comment.author.name}
-                  </div>
-                </a>
+                <div className="text-sm leading-5 font-medium">
+                  {comment.author.name}
+                </div>
               </Link>
               {comment.author.isVerified && (
                 <svg
