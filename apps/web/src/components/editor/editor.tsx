@@ -58,9 +58,11 @@ export class Editor extends Component<Props> {
   }
 
   async fetchTools() {
-    const [Header, list, quote, delimiter] = await Promise.all([
+    const [Header, image, list, quote, delimiter] = await Promise.all([
       // @ts-ignore
       import("@editorjs/header").then((i) => i.default),
+      // @ts-ignore
+      import("@editorjs/simple-image").then((i) => i.default),
       // @ts-ignore
       import("@editorjs/list").then((i) => i.default),
       // @ts-ignore
@@ -74,6 +76,7 @@ export class Editor extends Component<Props> {
         defaultLevel: 2,
         inlineToolbar: false,
       },
+      image,
       list,
       quote,
       delimiter,

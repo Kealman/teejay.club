@@ -2,7 +2,7 @@ import { OutputBlockData, OutputData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import { memo } from "react";
 
-import { sanitizeHtml } from "../../utilities";
+import { classNames, sanitizeHtml } from "../../utilities";
 
 const TwitterEmbed = dynamic(
   () => import("../embeds").then((i) => i.TwitterEmbed),
@@ -44,13 +44,46 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
     return null;
   }
 
+  console.log(block);
+
+  if (block.type === "header") {
+    return <h2 key={block.id}>{block.data.text}</h2>;
+  }
+
   if (block.type === "paragraph") {
     const __html = sanitizeHtml(block.data.text, isSummary);
     return <p key={block.id} dangerouslySetInnerHTML={{ __html }} />;
   }
 
-  if (block.type === "header") {
-    return <h2 key={block.id}>{block.data.text}</h2>;
+  if (block.type === "image") {
+    return (
+      <div className="cdx-block cdx-simple-image">
+        <div
+          className={classNames("cdx-simple-image__picture", {
+            "cdx-simple-image__picture--with-border": block.data.withBorder,
+            "cdx-simple-image__picture--stretched -mx-4": block.data.stretched,
+            "cdx-simple-image__picture--with-background":
+              block.data.withBackground,
+          })}
+        >
+          <img
+            className={classNames("h-full", {
+              "!rounded-none": block.data.stretched,
+            })}
+            src={block.data.url}
+            alt={block.data.caption}
+          />
+        </div>
+        {block.data.caption && (
+          <div className="cdx-input cdx-simple-image__caption">
+            {block.data.caption}
+          </div>
+        )}
+      </div>
+    );
+    {
+      /* return <img key={block.id} alt={block.data.caption} src={block.data.url} />; */
+    }
   }
 
   if (block.type === "list") {

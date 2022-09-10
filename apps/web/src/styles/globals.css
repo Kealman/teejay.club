@@ -91,6 +91,14 @@ body {
   @apply flex flex-col gap-y-2;
 }
 
+.codex-editor .cdx-simple-image__picture--stretched {
+  @apply -mx-[59px];
+}
+
+.codex-editor .cdx-simple-image__picture--stretched img {
+  @apply !rounded-none;
+}
+
 .cdx-block,
 .cdx-list__item,
 .ce-paragraph {
