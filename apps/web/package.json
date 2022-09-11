@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=8043 next dev",
+    "start": "next dev -H 127.0.0.1 -p 8043",
     "build": "next build",
-    "serve": "PORT=8043 next start"
+    "serve": "next start -H 127.0.0.1 -p 8043"
   },
   "dependencies": {
     "@editorjs/delimiter": "^1.2.0",
