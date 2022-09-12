@@ -1,7 +1,7 @@
 import { TUser } from "@teejay/api";
-import Image from "next/image";
 import { memo } from "react";
 
+import { getAvatarUrl } from "../../utilities";
 import { Link } from "../link";
 
 type Props = {
@@ -10,12 +10,12 @@ type Props = {
 
 export const User = memo<Props>(({ user }) => (
   <Link href={`/users/${user.id}`}>
-    <Image
+    <img
       className="w-8 h-8 rounded"
       width={32}
       height={32}
       alt={user.name}
-      src={user.avatar}
+      src={getAvatarUrl(user.avatarId)}
     />
   </Link>
 ));

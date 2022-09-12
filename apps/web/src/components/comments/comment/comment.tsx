@@ -1,10 +1,9 @@
 import { TComment } from "@teejay/api";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-import { classNames } from "../../../utilities";
+import { classNames, getAvatarUrl } from "../../../utilities";
 import { Link } from "../../link";
 import { CommentVote } from "../comment-vote";
 
@@ -34,12 +33,12 @@ export const Comment: FC<Props> = ({ comment }) => {
         })}
       >
         <div className="flex flex-row items-center">
-          <Image
+          <img
             className="w-8 h-8 rounded-full"
             width={32}
             height={32}
             alt={comment.author.name}
-            src={comment.author.avatar}
+            src={getAvatarUrl(comment.author.avatarId)}
           />
           <div className="ml-2 flex flex-col">
             <div className="flex flex-row items-center">

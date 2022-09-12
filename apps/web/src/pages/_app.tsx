@@ -22,7 +22,7 @@ function App({ Component, pageProps: { initialData, ...pageProps } }: Props) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      url: process.env.NEXT_PUBLIC_API_ENDPOINT ?? "",
+      url: (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/trpc",
       transformer: superjson,
       headers() {
         const token = extractAccessToken(document.cookie);

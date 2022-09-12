@@ -1,5 +1,3 @@
-import { TRPCError } from "@trpc/server";
-
 import { signUpInput } from "../inputs";
 import { signUpOutput } from "../outputs";
 
