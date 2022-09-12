@@ -13,7 +13,7 @@ export const trpc = createTRPCReact<AppRouter>();
 
 export function initVanillaTRPC(cookies?: string) {
   return createTRPCProxyClient<AppRouter>({
-    url: process.env.NEXT_PUBLIC_API_ENDPOINT ?? "",
+    url: (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/trpc",
     transformer: superjson,
     headers() {
       const token = extractAccessToken(cookies);

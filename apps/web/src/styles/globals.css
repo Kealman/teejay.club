@@ -91,12 +91,22 @@ body {
   @apply flex flex-col gap-y-2;
 }
 
-.codex-editor .cdx-simple-image__picture--stretched {
-  @apply -mx-[59px];
+.image-tool--stretched .image-tool__image-picture {
+  width: 100%;
+  max-height: 360px;
 }
 
-.codex-editor .cdx-simple-image__picture--stretched img {
-  @apply !rounded-none;
+.image-tool__image {
+  @apply -mx-4 !rounded-none flex flex-row justify-center;
+}
+
+.image-tool__image-picture {
+  object-fit: contain;
+  max-height: 540px;
+}
+
+.image-tool--stretched .image-tool__image-picture {
+  @apply !rounded-none object-cover;
 }
 
 .cdx-block,

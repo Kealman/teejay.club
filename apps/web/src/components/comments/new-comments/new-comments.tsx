@@ -1,7 +1,6 @@
-import Image from "next/image";
 import { FC } from "react";
 
-import { formatDistanceShort, trpc } from "../../../utilities";
+import { formatDistanceShort, trpc, getAvatarUrl } from "../../../utilities";
 import { Link } from "../../link";
 
 export const NewComments: FC = () => {
@@ -27,12 +26,12 @@ export const NewComments: FC = () => {
             className="flex flex-col gap-y-1 text-sm"
           >
             <div className="flex flex-row items-center">
-              <Image
+              <img
                 className="w-5 h-5 rounded"
                 width={20}
                 height={20}
                 alt={comment.author.name}
-                src={comment.author.avatar}
+                src={getAvatarUrl(comment.author.avatarId)}
               />
               <div className="ml-2 flex flex-row gap-x-1 items-center">
                 <div className="leading-5 font-medium">
