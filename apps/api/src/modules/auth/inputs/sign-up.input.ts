@@ -4,7 +4,8 @@ export const signUpInput = z.object({
   code: z
     .string({ required_error: "Это обязательное поле" })
     .trim()
-    .length(64, "Неверный код"),
+    .length(64, "Неверный код")
+    .optional(),
   login: z
     .string({ required_error: "Это обязательное поле" })
     .trim()

@@ -15,14 +15,15 @@ import CommentsState from "./comments.state";
 type Props = {
   postId: number;
 
-  comments: AppRouter["comments"]["getNew"]["_def"]["_output_out"];
+  comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
 };
 
 export const Comments = observer<Props>(({ postId, comments }) => {
   const [state] = useState(() => new CommentsState());
-  const commentsQuery = trpc.comments.getNew.useInfiniteQuery(
+  const commentsQuery = trpc.comments.getMany.useInfiniteQuery(
     {
       postId,
+      sort: "old",
       take: 20,
     },
     {

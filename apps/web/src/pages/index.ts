@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from "./best";
+export { default, getServerSideProps } from "./top/[interval]";

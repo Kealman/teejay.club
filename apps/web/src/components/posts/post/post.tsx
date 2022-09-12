@@ -1,12 +1,14 @@
+import { OutputData } from "@editorjs/editorjs";
 import { TPost } from "@teejay/api";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { FC, Fragment } from "react";
 
 import { classNames } from "../../../utilities";
 import { Card } from "../../card";
+import { Link } from "../../link";
 import { Markdown } from "../../markdown";
+import { Renderer } from "../../renderer";
 import { PostVote } from "../post-vote";
 
 const RelativeDate = dynamic(
@@ -51,45 +53,80 @@ export const Post: FC<Props> = ({
           </svg>
         </div>
       )}
-      <div className="flex flex-row items-center text-sm">
-        <div className="relative h-6 w-6 rounded overflow-hidden">
-          <Image layout="fill" alt={post.author.name} src="/avatar.webp" />
+      <div className="flex flex-row items-center justify-between text-sm">
+        <div className="flex flex-row items-center gap-x-4">
+          {post.subsite && (
+            <Link
+              href={`/subsites/${post.subsite.slug}`}
+              className="flex flex-row gap-x-2 items-center"
+            >
+              <Image
+                className="h-6 w-6 rounded"
+                width={24}
+                height={24}
+                alt={post.subsite.name}
+                src={post.subsite.avatar}
+              />
+              <div className="font-medium text-sm">{post.subsite.name}</div>
+            </Link>
+          )}
+          <div className="flex flex-row gap-x-2 items-center">
+            {!post.subsite && (
+              <Image
+                className="h-6 w-6 rounded"
+                alt={post.author.name}
+                src={post.author.avatar}
+                width={24}
+                height={24}
+              />
+            )}
+            <a
+              href={`/users/${post.author.id}`}
+              className={classNames("text-sm", {
+                "font-medium": !post.subsite,
+              })}
+            >
+              {post.author.name}
+            </a>
+            {post.author.isVerified && (
+              <svg
+                className="-ml-1 w-4 h-4 fill-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+          </div>
         </div>
-        <a
-          href={`/users/${post.author.id}`}
-          className="ml-2 font-medium text-sm"
-        >
-          {post.author.name}
-        </a>
-        {post.author.isVerified && (
-          <svg
-            className="ml-1 w-4 h-4 fill-blue-500"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-              clipRule="evenodd"
-            />
-          </svg>
-        )}
-        <div className="ml-auto text-gray-600">
+        <div className="text-gray-600">
           <RelativeDate date={new Date(post.createdAt)} />
         </div>
       </div>
       {isPreview ? (
-        <Link href={`/posts/${post.id}`}>
-          <a>
-            <div className="font-bold text-xl mt-3">{post.title}</div>
-            <Markdown isSummary>{post.content}</Markdown>
-          </a>
+        <Link href={`/posts/${post.id}`} className="mt-3 flex flex-col gap-y-2">
+          <div className="font-bold text-xl">{post.title}</div>
+          {post.contentV1 ? (
+            <Markdown isSummary>{post.contentV1 ?? ""}</Markdown>
+          ) : (
+            <Renderer isSummary>
+              {post.contentV2 as unknown as OutputData}
+            </Renderer>
+          )}
         </Link>
       ) : (
-        <Fragment>
-          <div className="font-bold text-xl mt-3">{post.title}</div>
-          <Markdown>{post.content}</Markdown>
-        </Fragment>
+        <div className="mt-3 flex flex-col gap-y-2">
+          <div className="font-bold text-xl">{post.title}</div>
+          {post.contentV1 ? (
+            <Markdown>{post.contentV1}</Markdown>
+          ) : (
+            <Renderer>{post.contentV2 as unknown as OutputData}</Renderer>
+          )}
+        </div>
       )}
       <div className="mt-3 flex flex-row gap-x-2 text-gray-900 fill-gray-900 text-sm">
         <a

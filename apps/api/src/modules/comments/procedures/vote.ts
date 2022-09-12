@@ -1,13 +1,13 @@
 import { voteCommentInput } from "../inputs";
 
-import { authGuard } from "@/guards";
+import { blockGuard } from "@/guards";
 import { comments, commentVotes } from "@/modules";
 import { prisma } from "@/prisma";
 import { t } from "@/trpc";
 
 export const vote = t.procedure
+  .use(blockGuard)
   .input(voteCommentInput)
-  .use(authGuard)
   .mutation(async ({ input: { commentId, sign }, ctx: { user } }) => {
     const userId = user.id;
 

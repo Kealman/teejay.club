@@ -1,17 +1,19 @@
 import { observer } from "mobx-react-lite";
-import Link from "next/link";
 
 import { classNames, trpc } from "../../utilities";
+import { Link } from "../link";
 
 import { SignIn } from "./sign-in";
 import { User } from "./user";
 
 export const RightSide = observer(() => {
   const userQuery = trpc.users.getMe.useQuery();
+  const user = userQuery.data;
   return (
     <div className="ml-auto flex flex-row gap-x-4 items-center z-10">
-      <Link href="/posts/new">
-        <a
+      {user && (
+        <Link
+          href="/posts/new"
           className={classNames(
             "px-3 py-1 flex flex-row gap-x-2",
             "border border-gray-200 bg-gray-100 text-gray-900",
@@ -34,9 +36,9 @@ export const RightSide = observer(() => {
             />
           </svg>
           <div className="text-sm">Написать</div>
-        </a>
-      </Link>
-      {userQuery.data ? <User user={userQuery.data} /> : <SignIn />}
+        </Link>
+      )}
+      {user ? <User user={user} /> : <SignIn />}
     </div>
   );
 });

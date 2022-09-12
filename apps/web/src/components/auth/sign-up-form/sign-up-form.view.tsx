@@ -1,17 +1,17 @@
 import { TInvite } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useVanillaTRPC } from "../../../utilities";
 import { Field, Form, Input } from "../../form";
+import { Link } from "../../link";
 import { Spinner } from "../../spinner";
 
 import { SignUpFormState } from "./sign-up-form.state";
 
 type Props = {
-  invite: TInvite;
+  invite?: TInvite;
 };
 
 export const SignUpForm = observer<Props>(({ invite }) => {
@@ -20,18 +20,14 @@ export const SignUpForm = observer<Props>(({ invite }) => {
   const [state] = useState(
     () => new SignUpFormState(trpcClient, router, invite)
   );
-
+  const title = invite ? "Пришлашение в клуб" : "Регистрация в клубе";
   if (state.signUpTask.isSucceeded) {
     return (
-      <Form title="Пришлашение в клуб">
+      <Form title={title}>
         <div className="border-l-8 border-green-500 bg-green-50 text-green-900 -mx-4 px-4 py-4 flex flex-col gap-y-3">
           <p>Вы успешно вступили в клуб TeeJay.</p>
           <p>
-            Теперь вы можете{" "}
-            <Link href="/sign-in">
-              <a>войти</a>
-            </Link>{" "}
-            на сайт.
+            Теперь вы можете <Link href="/sign-in">войти</Link> на сайт.
           </p>
         </div>
       </Form>
@@ -39,11 +35,13 @@ export const SignUpForm = observer<Props>(({ invite }) => {
   }
 
   return (
-    <Form title="Пришлашение в клуб" onSubmit={state.handleSubmit}>
+    <Form title={title} onSubmit={state.handleSubmit}>
       <Spinner isSpinning={state.signUpTask.isRunning} />
-      <p className="">
-        {invite.inviter.name} приглашает вас присоединится к клубу TeeJay!
-      </p>
+      {invite && (
+        <p className="">
+          {invite.inviter.name} приглашает вас присоединится к клубу TeeJay!
+        </p>
+      )}
       <p>Введите данные, которые будут использоваться для входа на сайт.</p>
       {state.signUpTask.isFaulted && (
         <div className="text-red-500">Логин уже занят кем-то другим</div>

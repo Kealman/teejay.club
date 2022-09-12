@@ -13,11 +13,10 @@ export const Spinner = memo<Props>(({ isSpinning }) => {
     <div className="absolute inset-0 bg-white/75 flex items-center justify-center z-40">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6 text-amber-500 animate-spin"
+        className="w-6 h-6 text-amber-500 animate-spin !fill-[none]"
       >
         <path
           strokeLinecap="round"

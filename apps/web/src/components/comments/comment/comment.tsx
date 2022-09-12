@@ -2,11 +2,11 @@ import { TComment } from "@teejay/api";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { classNames, initVanillaTRPC } from "../../../utilities";
+import { Link } from "../../link";
 import { CommentVote } from "../comment-vote";
 import CommentsState from "../comments/comments.state";
 import { NewCommentForm } from "../new-comment-form";

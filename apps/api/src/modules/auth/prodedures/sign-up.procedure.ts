@@ -14,27 +14,28 @@ export const signUp = t.procedure
     const { code, login, name, email } = input;
     const password = await encryptPassword(input.password);
 
+    const invitee = await prisma.user.create({
+      data: { login, name, email, password },
+    });
+
+    if (!code) {
+      return;
+    }
+
     const invite = await prisma.invite.findFirst({
       where: { code, inviteeId: null },
     });
 
     if (!invite) {
-      throw new TRPCError({ code: "NOT_FOUND" });
+      return;
     }
 
     try {
       await prisma.invite.update({
-        where: { code },
-        data: {
-          invitee: {
-            create: { login, name, email, password },
-          },
-        },
+        where: { id: invite.id },
+        data: { inviteeId: invitee.id },
       });
     } catch (error) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Login already used by another user",
-      });
+      console.error(error);
     }
   });

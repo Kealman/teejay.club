@@ -22,7 +22,7 @@ export const getServerSideProps = withInitialData(
     GetServerSidePropsResult<{
       user: TUser;
       posts: AppRouter["posts"]["getNew"]["_def"]["_output_out"];
-      comments: AppRouter["comments"]["getNew"]["_def"]["_output_out"];
+      comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
     }>
   > => {
     if (
@@ -44,7 +44,7 @@ export const getServerSideProps = withInitialData(
       const [user, posts, comments] = await Promise.all([
         trpc.users.getOne.query({ id }),
         trpc.posts.getNew.query({ authorId: id }),
-        trpc.comments.getNew.query({ authorId: id }),
+        trpc.comments.getMany.query({ authorId: id }),
       ]);
 
       return { props: { user, posts, comments } };
@@ -66,10 +66,15 @@ const UserPage: NextPage<Props> = ({ user, posts }) => {
             <div className="flex flex-row gap-x-4">
               <img
                 className="w-32 h-32 rounded"
-                src="/avatar.webp"
+                src={user.avatar}
                 alt={user.name}
               />
               <div className="flex flex-col gap-y-2 justify-end">
+                {user.blockedAt && (
+                  <p className="text-red-500 font-medium">
+                    Пользователь заблокирован.
+                  </p>
+                )}
                 <h1 className="flex flex-row items-center !text-4xl">
                   {user.name}{" "}
                   {user.isVerified && (

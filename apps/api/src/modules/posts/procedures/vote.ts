@@ -1,16 +1,15 @@
 import { votePostInput } from "../inputs";
 
-import { authGuard } from "@/guards";
+import { blockGuard } from "@/guards";
 import { posts, postVotes } from "@/modules";
 import { prisma } from "@/prisma";
 import { t } from "@/trpc";
 
 export const vote = t.procedure
+  .use(blockGuard)
   .input(votePostInput)
-  .use(authGuard)
   .mutation(async ({ input: { postId, sign }, ctx: { user } }) => {
     const userId = user.id;
-    console.log(user);
 
     const post = await prisma.post.findFirstOrThrow({
       where: { id: postId },
