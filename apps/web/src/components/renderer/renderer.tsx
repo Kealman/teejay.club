@@ -56,7 +56,10 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
 
   if (block.type === "image") {
     return (
-      <div
+      <a
+        href={block.data.url ?? block.data.file.url}
+        target="_blank"
+        rel="noreferrer"
         className={classNames("ce-block", {
           "ce-block--stretched": block.data.stretched,
         })}
@@ -81,7 +84,7 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
             </div>
           </div>
         </div>
-      </div>
+      </a>
     );
   }
 
