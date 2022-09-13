@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { memo } from "react";
 
 import { classNames, sanitizeHtml } from "../../utilities";
+import { YoutubeEmbed, RedditEmbed } from "../embeds";
 
 const TwitterEmbed = dynamic(
   () => import("../embeds").then((i) => i.TwitterEmbed),
@@ -115,6 +116,14 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
 
   if (block.type === "telegram") {
     return <TelegramEmbed key={block.id} id={block.data.id} />;
+  }
+
+  if (block.type === "youtube") {
+    return <YoutubeEmbed key={block.id} id={block.data.id} />;
+  }
+
+  if (block.type === "reddit") {
+    return <RedditEmbed key={block.id} id={block.data.id} />;
   }
 
   return null;
