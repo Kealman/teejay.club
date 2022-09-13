@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { useVanillaTRPC } from "../../../utilities";
+import { useClientSideTRPC } from "../../../utilities";
 import { Field, Form, Input } from "../../form";
 import { Link } from "../../link";
 import { Spinner } from "../../spinner";
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const SignUpForm = observer<Props>(({ invite }) => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const router = useRouter();
   const [state] = useState(
     () => new SignUpFormState(trpcClient, router, invite)

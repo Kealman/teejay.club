@@ -5,7 +5,7 @@ import { Card } from "../../components/card";
 import { NewComments } from "../../components/comments";
 import { Page } from "../../components/page";
 import { Post } from "../../components/posts";
-import { initVanillaTRPC, withInitialData } from "../../utilities";
+import { createClientSideTRPC, withInitialData } from "../../utilities";
 
 import type {
   GetServerSidePropsContext,
@@ -36,7 +36,7 @@ export const getServerSideProps = withInitialData(
       return { notFound: true } as const;
     }
 
-    const trpc = initVanillaTRPC(context.req.headers.cookie);
+    const trpc = createClientSideTRPC(context.req.headers.cookie);
 
     try {
       const subsite = await trpc.subsites.getOne.query({ slug });

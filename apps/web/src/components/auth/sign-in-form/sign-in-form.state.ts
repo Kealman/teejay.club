@@ -3,11 +3,11 @@ import { makeAutoObservable } from "mobx";
 import { NextRouter } from "next/router";
 import { ChangeEvent, FormEvent } from "react";
 
-import { Task, transformInputError, VanillaTRPC } from "../../../utilities";
+import { Task, transformInputError, ClientSideTRPC } from "../../../utilities";
 
 export class SignInFormState {
   constructor(
-    public readonly trpcClient: VanillaTRPC,
+    public readonly trpcClient: ClientSideTRPC,
     public readonly router: NextRouter
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });

@@ -1,15 +1,14 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProps } from "next/app";
 import { useState } from "react";
-import superjson from "superjson";
 
 import { RootStoreProvider } from "../stores/root.store";
 import {
-  extractAccessToken,
   InitialData,
-  initVanillaTRPC,
+  createClientSideTRPC,
   trpc,
-  VanillaTRPCProvider,
+  ClientSideTRPCProvider,
+  createReactSideTRPC,
 } from "../utilities";
 
 import "../styles/globals.css";
@@ -20,27 +19,17 @@ type Props = Omit<AppProps, "pageProps"> & {
 
 function App({ Component, pageProps: { initialData, ...pageProps } }: Props) {
   const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      url: (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/trpc",
-      transformer: superjson,
-      headers() {
-        const token = extractAccessToken(document.cookie);
-        return { Authorization: token && "Bearer " + token };
-      },
-    })
-  );
-  const [vanillaTrpcClient] = useState(() =>
-    initVanillaTRPC(typeof window !== "undefined" ? document.cookie : undefined)
-  );
+  const [reactSideTRPC] = useState(() => createReactSideTRPC());
+  const [clientSideTRPC] = useState(() => createClientSideTRPC());
+
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={reactSideTRPC} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <VanillaTRPCProvider value={vanillaTrpcClient}>
+        <ClientSideTRPCProvider value={clientSideTRPC}>
           <RootStoreProvider initialData={initialData}>
             <Component {...pageProps} />
           </RootStoreProvider>
-        </VanillaTRPCProvider>
+        </ClientSideTRPCProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );

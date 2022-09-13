@@ -9,7 +9,7 @@ import { Fragment, useState } from "react";
 import {
   classNames,
   trpc,
-  useVanillaTRPC,
+  useClientSideTRPC,
   getAvatarUrl,
 } from "../../../utilities";
 import { Spinner } from "../../spinner";
@@ -19,7 +19,7 @@ import { NewPostFormState } from "./new-post-form.state";
 const Editor = dynamic(() => import("../../editor").then((i) => i.Editor));
 
 export const NewPostForm = observer(() => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const userQuery = trpc.users.getMe.useQuery();
   const router = useRouter();
   const [state] = useState(() => new NewPostFormState(trpcClient, router));
