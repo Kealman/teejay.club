@@ -4,12 +4,12 @@ import { Card } from "../../components/card";
 import { NewComments } from "../../components/comments";
 import { Link } from "../../components/link";
 import { Page } from "../../components/page";
-import { createClientSideTRPC, withInitialData } from "../../utilities";
+import { createServerSideTRPC, withInitialData } from "../../utilities";
 
 import type { InferGetServerSidePropsType, NextPage } from "next";
 
 export const getServerSideProps = withInitialData(async (context) => {
-  const trpc = createClientSideTRPC(context.req.headers.cookie);
+  const trpc = createServerSideTRPC(context);
   const subsites = await trpc.subsites.getAll.query();
   return { props: { subsites } };
 });

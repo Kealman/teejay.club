@@ -5,10 +5,10 @@ import { NewComments } from "../components/comments";
 import { Page } from "../components/page";
 import { Post } from "../components/posts";
 import { useInfiniteScroll } from "../hooks";
-import { createClientSideTRPC, trpc, withInitialData } from "../utilities";
+import { createServerSideTRPC, trpc, withInitialData } from "../utilities";
 
 export const getServerSideProps = withInitialData(async (context) => {
-  const trpc = createClientSideTRPC(context.req.headers.cookie);
+  const trpc = createServerSideTRPC(context);
   const posts = await trpc.posts.getNew.query({});
   return { props: { posts } };
 });
