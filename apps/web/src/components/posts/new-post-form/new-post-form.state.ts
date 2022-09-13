@@ -4,11 +4,11 @@ import { makeAutoObservable } from "mobx";
 import { NextRouter } from "next/router";
 import { ChangeEvent, FormEvent } from "react";
 
-import { Task, transformInputError, VanillaTRPC } from "../../../utilities";
+import { Task, transformInputError, ClientSideTRPC } from "../../../utilities";
 
 export class NewPostFormState {
   constructor(
-    public readonly trpcClient: VanillaTRPC,
+    public readonly trpcClient: ClientSideTRPC,
     private router: NextRouter
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });

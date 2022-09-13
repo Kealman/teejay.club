@@ -4,6 +4,7 @@ import {
   createTRPCReact,
   inferRouterProxyClient,
 } from "@trpc/react";
+import { GetServerSidePropsContext } from "next";
 import { createContext, useContext } from "react";
 import superjson from "superjson";
 
@@ -11,22 +12,47 @@ import { extractAccessToken } from ".";
 
 export const trpc = createTRPCReact<AppRouter>();
 
-export function initVanillaTRPC(cookies?: string) {
+const url = (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/trpc";
+const transformer = superjson;
+const clientSideHeaders = () => {
+  const cookie = typeof window !== "undefined" ? document.cookie : undefined;
+  const token = extractAccessToken(cookie);
+  return { Authorization: token && "Bearer " + token };
+};
+
+export function createReactSideTRPC() {
+  return trpc.createClient({
+    url,
+    transformer,
+    headers: clientSideHeaders,
+  });
+}
+
+export function createClientSideTRPC() {
   return createTRPCProxyClient<AppRouter>({
-    url: (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/trpc",
-    transformer: superjson,
+    url,
+    transformer,
+    headers: clientSideHeaders,
+  });
+}
+
+export function createServerSideTRPC(context: GetServerSidePropsContext) {
+  return createTRPCProxyClient<AppRouter>({
+    url,
+    transformer,
     headers() {
-      const token = extractAccessToken(cookies);
+      const token = extractAccessToken(context.req.headers.cookie);
       return { Authorization: token && "Bearer " + token };
     },
   });
 }
-export type VanillaTRPC = inferRouterProxyClient<AppRouter>;
 
-const VanillaTRPCContext = createContext(null as unknown as VanillaTRPC);
+export type ClientSideTRPC = inferRouterProxyClient<AppRouter>;
 
-export const VanillaTRPCProvider = VanillaTRPCContext.Provider;
+const ClientSideTRPCContext = createContext(null as unknown as ClientSideTRPC);
 
-export const useVanillaTRPC = () => {
-  return useContext(VanillaTRPCContext);
+export const ClientSideTRPCProvider = ClientSideTRPCContext.Provider;
+
+export const useClientSideTRPC = () => {
+  return useContext(ClientSideTRPCContext);
 };

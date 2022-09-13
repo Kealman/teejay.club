@@ -8,7 +8,7 @@ import {
 import { SignUpForm } from "../../components/auth/sign-up-form";
 import { Card } from "../../components/card";
 import { Page } from "../../components/page/page";
-import { initVanillaTRPC, withInitialData } from "../../utilities";
+import { createClientSideTRPC, withInitialData } from "../../utilities";
 
 type Query = { code: string };
 
@@ -19,7 +19,7 @@ export const getServerSideProps = withInitialData(
     context: Context
   ): Promise<GetServerSidePropsResult<{ invite: TInvite }>> => {
     try {
-      const trpc = initVanillaTRPC(context.req.headers.cookie);
+      const trpc = createClientSideTRPC(context.req.headers.cookie);
       const invite = await trpc.invites.getOne.query({
         code: context.params?.code ?? "",
       });

@@ -1,10 +1,13 @@
 import { TPost, TPostVote } from "@teejay/api";
 import { makeAutoObservable } from "mobx";
 
-import { Task, VanillaTRPC } from "../../../utilities";
+import { Task, ClientSideTRPC } from "../../../utilities";
 
 export class PostVoteState {
-  constructor(public readonly trpcClient: VanillaTRPC, private _post: TPost) {
+  constructor(
+    public readonly trpcClient: ClientSideTRPC,
+    private _post: TPost
+  ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });
   }
 

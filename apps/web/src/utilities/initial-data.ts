@@ -10,11 +10,11 @@ import {
 } from "next";
 
 import { extractAccessToken } from "./access-token";
-import { initVanillaTRPC } from "./trpc";
+import { createClientSideTRPC } from "./trpc";
 
 export async function fetchInitialData(context: Context) {
   const accessToken = extractAccessToken(context.req.headers.cookie);
-  const trpc = initVanillaTRPC(accessToken);
+  const trpc = createClientSideTRPC(accessToken);
 
   let user: TUser | null;
   try {

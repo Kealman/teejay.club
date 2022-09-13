@@ -8,7 +8,7 @@ import { NewComments } from "../../components/comments";
 import { Page } from "../../components/page";
 import { Post } from "../../components/posts";
 import {
-  initVanillaTRPC,
+  createClientSideTRPC,
   withInitialData,
   getAvatarUrl,
 } from "../../utilities";
@@ -44,7 +44,7 @@ export const getServerSideProps = withInitialData(
       return { notFound: true } as const;
     }
 
-    const trpc = initVanillaTRPC(context.req.headers.cookie);
+    const trpc = createClientSideTRPC(context.req.headers.cookie);
 
     try {
       const [currentUser, user, posts, comments] = await Promise.all([
