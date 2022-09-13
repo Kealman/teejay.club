@@ -67,7 +67,7 @@ export const Comment: FC<Props> = ({ comment }) => {
           </div>
           <CommentVote comment={comment} />
         </div>
-        <div className="whitespace-pre-line">{comment.content}</div>
+        <div className="whitespace-pre-line break-words">{comment.content}</div>
         {/*
     <div className="flex flex-row">
       <div className="text-sm text-gray-500 cursor-pointer">Ответить</div>
