@@ -3,8 +3,10 @@ import { Component } from "react";
 
 import { extractAccessToken } from "../../utilities";
 
+import { Reddit } from "./reddit";
 import { Telegram } from "./telegram";
 import { Twitter } from "./twitter";
+import { Youtube } from "./youtube";
 
 type Props = {
   placeholder: string;
@@ -142,6 +144,8 @@ export class Editor extends Component<Props> {
       delimiter,
       telegram: Telegram,
       twitter: Twitter,
+      youtube: Youtube,
+      reddit: Reddit,
     };
   }
 
