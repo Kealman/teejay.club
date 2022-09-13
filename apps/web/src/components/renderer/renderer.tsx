@@ -55,17 +55,18 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
 
   if (block.type === "image") {
     return (
-      <div className="ce-block ce-block--stretched">
+      <div
+        className={classNames("ce-block", {
+          "ce-block--stretched": block.data.stretched,
+        })}
+      >
         <div className="ce-block__content">
           <div
-            className={classNames(
-              "cdx-block image-tool image-tool--filled  image-tool--stretched",
-              {
-                "image-tool--stretched": block.data.stretched,
-                "image-tool--withBackground": block.data.withBackground,
-                "image-tool--withBorder": block.data.withBorder,
-              }
-            )}
+            className={classNames("cdx-block image-tool image-tool--filled", {
+              "image-tool--stretched": block.data.stretched,
+              "image-tool--withBackground": block.data.withBackground,
+              "image-tool--withBorder": block.data.withBorder,
+            })}
           >
             <div className="image-tool__image">
               <img
