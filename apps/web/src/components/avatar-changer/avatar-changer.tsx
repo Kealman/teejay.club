@@ -44,11 +44,14 @@ export const AvatarChanger = memo<Props>(({ user }) => {
     const body = new FormData();
     body.set("file", file);
     const accessToken = extractAccessToken(document.cookie);
-    const response = await fetch("http://localhost:8042/avatars", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${accessToken}` },
-      body,
-    });
+    const response = await fetch(
+      (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/avatars",
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body,
+      }
+    );
 
     if (response.status !== 200) {
       setIsError(true);
