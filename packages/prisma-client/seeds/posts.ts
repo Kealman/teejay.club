@@ -13,7 +13,7 @@ async function main() {
     .map(() =>
       prisma.post.create({
         data: {
-          content: `${faker.lorem.paragraph()}\n\n![Image](${faker.image.cats(
+          contentV1: `${faker.lorem.paragraph()}\n\n![Image](${faker.image.cats(
             undefined,
             undefined,
             true

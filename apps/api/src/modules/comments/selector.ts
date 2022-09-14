@@ -8,6 +8,7 @@ export const select = (userId: number) =>
     postId: true,
     parentId: true,
     createdAt: true,
+    path: true,
     post: {
       select: {
         id: true,

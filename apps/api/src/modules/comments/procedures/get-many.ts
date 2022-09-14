@@ -15,6 +15,7 @@ export const getMany = t.procedure
             id: postId,
             isPublished: true,
           },
+          parentId: null,
           authorId,
         },
         orderBy: [{ createdAt: sort === "new" ? "desc" : "asc" }],

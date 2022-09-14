@@ -19,7 +19,7 @@ export const NewCommentForm = observer<Props>(
     const trpcClient = useVanillaTRPC();
     const state = useMemo(
       () => new NewCommentFormState(trpcClient, postId, onCreate, parentId),
-      [onCreate, postId, trpcClient]
+      [onCreate, postId, trpcClient, parentId]
     );
     const [isFocused, setIsFocused] = useState<boolean>(false);
     return (
@@ -49,16 +49,6 @@ export const NewCommentForm = observer<Props>(
             "flex flex-row justify-end": true,
           })}
         >
-          <Spinner isSpinning={state.createCommentTask.isRunning} />
-          <TextArea
-            className="min-h-[24px] resize-none bg-transparent outline-none transition-all duration-100"
-            placeholder="Написать комментарий..."
-            value={state.text}
-            onChange={state.handleTextChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
-
           <div
             className={classNames({
               "flex flex-row justify-end": true,
