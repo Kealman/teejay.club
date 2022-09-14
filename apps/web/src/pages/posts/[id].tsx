@@ -3,7 +3,7 @@ import { AppRouter, TPost } from "@teejay/api";
 import { Comments, NewComments } from "../../components/comments";
 import { Page } from "../../components/page";
 import { Post } from "../../components/posts";
-import { initVanillaTRPC, withInitialData } from "../../utilities";
+import { createServerSideTRPC, withInitialData } from "../../utilities";
 
 import type {
   GetServerSidePropsContext,
@@ -34,7 +34,7 @@ export const getServerSideProps = withInitialData(
       return { notFound: true } as const;
     }
 
-    const trpc = initVanillaTRPC(context.req.headers.cookie);
+    const trpc = createServerSideTRPC(context);
 
     try {
       const [post, comments] = await Promise.all([

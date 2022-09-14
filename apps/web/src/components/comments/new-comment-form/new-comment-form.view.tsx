@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useMemo, useState } from "react";
 
-import { classNames, useVanillaTRPC } from "../../../utilities";
+import { classNames, useClientSideTRPC } from "../../../utilities";
 import { Spinner } from "../../spinner";
 import { TextArea } from "../../text-area";
 
@@ -16,7 +16,7 @@ type Props = {
 
 export const NewCommentForm = observer<Props>(
   ({ postId, parentId, onCreate, onCancelReply }) => {
-    const trpcClient = useVanillaTRPC();
+    const trpcClient = useClientSideTRPC();
     const state = useMemo(
       () => new NewCommentFormState(trpcClient, postId, onCreate, parentId),
       [onCreate, postId, trpcClient, parentId]

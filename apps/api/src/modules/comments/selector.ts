@@ -19,7 +19,7 @@ export const select = (userId: number) =>
       select: {
         id: true,
         name: true,
-        avatar: true,
+        avatarId: true,
         isVerified: true,
       },
     },

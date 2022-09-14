@@ -2,11 +2,16 @@ import { AppRouter, TUser } from "@teejay/api";
 import { format } from "date-fns";
 import locale from "date-fns/locale/ru";
 
+import { AvatarChanger } from "../../components/avatar-changer";
 import { Card } from "../../components/card";
 import { NewComments } from "../../components/comments";
 import { Page } from "../../components/page";
 import { Post } from "../../components/posts";
-import { initVanillaTRPC, withInitialData } from "../../utilities";
+import {
+  withInitialData,
+  getAvatarUrl,
+  createServerSideTRPC,
+} from "../../utilities";
 
 import type {
   GetServerSidePropsContext,
@@ -20,6 +25,7 @@ export const getServerSideProps = withInitialData(
     context: GetServerSidePropsContext
   ): Promise<
     GetServerSidePropsResult<{
+      currentUser: TUser | null;
       user: TUser;
       posts: AppRouter["posts"]["getNew"]["_def"]["_output_out"];
       comments: AppRouter["comments"]["getMany"]["_def"]["_output_out"];
@@ -38,16 +44,17 @@ export const getServerSideProps = withInitialData(
       return { notFound: true } as const;
     }
 
-    const trpc = initVanillaTRPC(context.req.headers.cookie);
+    const trpc = createServerSideTRPC(context);
 
     try {
-      const [user, posts, comments] = await Promise.all([
+      const [currentUser, user, posts, comments] = await Promise.all([
+        trpc.users.getMe.query(),
         trpc.users.getOne.query({ id }),
         trpc.posts.getNew.query({ authorId: id }),
         trpc.comments.getMany.query({ authorId: id }),
       ]);
 
-      return { props: { user, posts, comments } };
+      return { props: { currentUser, user, posts, comments } };
     } catch (error) {
       console.error(error);
       return { notFound: true };
@@ -57,18 +64,22 @@ export const getServerSideProps = withInitialData(
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const UserPage: NextPage<Props> = ({ user, posts }) => {
+const UserPage: NextPage<Props> = ({ currentUser, user, posts }) => {
   return (
     <Page title={`${user.name} — член клуба TeeJay`} description="">
       <div className="w-full flex flex-col gap-y-4">
         <Card className="md:max-w-2xl w-full md:mx-auto">
           <div className="flex flex-col gap-y-4 content">
             <div className="flex flex-row gap-x-4">
-              <img
-                className="w-32 h-32 rounded"
-                src={user.avatar}
-                alt={user.name}
-              />
+              {currentUser?.id === user.id ? (
+                <AvatarChanger user={currentUser} />
+              ) : (
+                <img
+                  className="w-32 h-32 rounded"
+                  src={getAvatarUrl(user.avatarId)}
+                  alt={user.name}
+                />
+              )}
               <div className="flex flex-col gap-y-2 justify-end">
                 {user.blockedAt && (
                   <p className="text-red-500 font-medium">

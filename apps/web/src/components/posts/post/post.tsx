@@ -2,9 +2,9 @@ import { OutputData } from "@editorjs/editorjs";
 import { TPost } from "@teejay/api";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 
-import { classNames } from "../../../utilities";
+import { classNames, getAvatarUrl } from "../../../utilities";
 import { Card } from "../../card";
 import { Link } from "../../link";
 import { Markdown } from "../../markdown";
@@ -72,10 +72,10 @@ export const Post: FC<Props> = ({
           )}
           <div className="flex flex-row gap-x-2 items-center">
             {!post.subsite && (
-              <Image
+              <img
                 className="h-6 w-6 rounded"
                 alt={post.author.name}
-                src={post.author.avatar}
+                src={getAvatarUrl(post.author.avatarId)}
                 width={24}
                 height={24}
               />

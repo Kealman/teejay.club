@@ -14,7 +14,7 @@ model User {
   email        String?       @unique
   name         String
   password     String
-  avatar       String        @default("/images/users/avatar.webp")
+  avatarId     String?
   website      String?
   isVerified   Boolean       @default(false)
   blockedAt    DateTime?

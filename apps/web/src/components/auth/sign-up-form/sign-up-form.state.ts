@@ -3,11 +3,11 @@ import { makeAutoObservable } from "mobx";
 import { NextRouter } from "next/router";
 import { ChangeEvent, FormEvent } from "react";
 
-import { Task, transformInputError, VanillaTRPC } from "../../../utilities";
+import { Task, transformInputError, ClientSideTRPC } from "../../../utilities";
 
 export class SignUpFormState {
   constructor(
-    public readonly trpcClient: VanillaTRPC,
+    public readonly trpcClient: ClientSideTRPC,
     private router: NextRouter,
     private invite?: TInvite
   ) {

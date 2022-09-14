@@ -1,15 +1,15 @@
 import { TPost } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import { classNames, useVanillaTRPC } from "../../../utilities";
+import { classNames, useClientSideTRPC } from "../../../utilities";
 
 import { PostVoteState } from "./post-vote.state";
 
 type Props = { post: TPost };
 
 export const PostVote = observer<Props>(({ post }) => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const state = useMemo(
     () => new PostVoteState(trpcClient, post),
     [post, trpcClient]

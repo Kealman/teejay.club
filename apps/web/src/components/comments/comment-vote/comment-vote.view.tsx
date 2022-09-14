@@ -1,15 +1,15 @@
 import { TComment } from "@teejay/api";
 import { observer } from "mobx-react-lite";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import { classNames, useVanillaTRPC } from "../../../utilities";
+import { classNames, useClientSideTRPC } from "../../../utilities";
 
 import { CommentVoteState } from "./comment-vote.state";
 
 type Props = { comment: TComment };
 
 export const CommentVote = observer<Props>(({ comment }) => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const state = useMemo(
     () => new CommentVoteState(trpcClient, comment),
     [comment, trpcClient]

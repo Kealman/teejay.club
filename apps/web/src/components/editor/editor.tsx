@@ -1,8 +1,12 @@
 import { OutputData } from "@editorjs/editorjs";
 import { Component } from "react";
 
+import { extractAccessToken } from "../../utilities";
+
+import { Reddit } from "./reddit";
 import { Telegram } from "./telegram";
 import { Twitter } from "./twitter";
+import { Youtube } from "./youtube";
 
 type Props = {
   placeholder: string;
@@ -58,11 +62,11 @@ export class Editor extends Component<Props> {
   }
 
   async fetchTools() {
-    const [Header, image, list, quote, delimiter] = await Promise.all([
+    const [Header, Image, list, quote, delimiter] = await Promise.all([
       // @ts-ignore
       import("@editorjs/header").then((i) => i.default),
       // @ts-ignore
-      import("@editorjs/simple-image").then((i) => i.default),
+      import("@editorjs/image").then((i) => i.default),
       // @ts-ignore
       import("@editorjs/list").then((i) => i.default),
       // @ts-ignore
@@ -76,12 +80,72 @@ export class Editor extends Component<Props> {
         defaultLevel: 2,
         inlineToolbar: false,
       },
-      image,
+      image: {
+        class: Image,
+        config: {
+          uploader: {
+            uploadByFile: async (file: File) => {
+              const accessToken = extractAccessToken(document.cookie);
+
+              const body = new FormData();
+              body.set("file", file);
+
+              const response = await fetch(
+                (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/images",
+                {
+                  method: "POST",
+                  headers: { Authorization: `Bearer ${accessToken}` },
+                  body,
+                }
+              );
+
+              const { id } = await response.json();
+
+              return {
+                success: 1,
+                file: {
+                  url:
+                    (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") +
+                    `/images/${id}`,
+                },
+              };
+            },
+            uploadByUrl: async (url: string) => {
+              const accessToken = extractAccessToken(document.cookie);
+
+              const body = new FormData();
+              body.set("url", url);
+
+              const response = await fetch(
+                (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") + "/images",
+                {
+                  method: "POST",
+                  headers: { Authorization: `Bearer ${accessToken}` },
+                  body,
+                }
+              );
+
+              const { id } = await response.json();
+
+              return {
+                success: 1,
+                file: {
+                  url:
+                    (process.env.NEXT_PUBLIC_API_HOSTNAME ?? "") +
+                    `/images/${id}`,
+                },
+              };
+            },
+          },
+        },
+      },
       list,
       quote,
       delimiter,
       telegram: Telegram,
       twitter: Twitter,
+      youtube: Youtube,
+      reddit: Reddit,
     };
   }
 

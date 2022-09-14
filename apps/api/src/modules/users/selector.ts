@@ -4,7 +4,7 @@ export const select = () =>
   Prisma.validator<Prisma.UserSelect>()({
     id: true,
     name: true,
-    avatar: true,
+    avatarId: true,
     isVerified: true,
     blockedAt: true,
     updatedAt: true,

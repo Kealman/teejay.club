@@ -11,7 +11,7 @@ import { Post } from "../../components/posts";
 import { useInfiniteScroll } from "../../hooks";
 import {
   classNames,
-  initVanillaTRPC,
+  createServerSideTRPC,
   trpc,
   withInitialData,
 } from "../../utilities";
@@ -39,7 +39,7 @@ export const getServerSideProps = withInitialData(
       return { notFound: true };
     }
 
-    const trpc = initVanillaTRPC(context.req.headers.cookie);
+    const trpc = createServerSideTRPC(context);
     const posts = await trpc.posts.getTop.query(input.data);
     return {
       props: {

@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { memo } from "react";
 
 import { classNames, sanitizeHtml } from "../../utilities";
+import { YoutubeEmbed, RedditEmbed } from "../embeds";
 
 const TwitterEmbed = dynamic(
   () => import("../embeds").then((i) => i.TwitterEmbed),
@@ -44,8 +45,6 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
     return null;
   }
 
-  console.log(block);
-
   if (block.type === "header") {
     return <h2 key={block.id}>{block.data.text}</h2>;
   }
@@ -57,33 +56,36 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
 
   if (block.type === "image") {
     return (
-      <div className="cdx-block cdx-simple-image">
-        <div
-          className={classNames("cdx-simple-image__picture", {
-            "cdx-simple-image__picture--with-border": block.data.withBorder,
-            "cdx-simple-image__picture--stretched -mx-4": block.data.stretched,
-            "cdx-simple-image__picture--with-background":
-              block.data.withBackground,
-          })}
-        >
-          <img
-            className={classNames("h-full", {
-              "!rounded-none": block.data.stretched,
+      <a
+        href={block.data.url ?? block.data.file.url}
+        target="_blank"
+        rel="noreferrer"
+        className={classNames("ce-block", {
+          "ce-block--stretched": block.data.stretched,
+        })}
+      >
+        <div className="ce-block__content">
+          <div
+            className={classNames("cdx-block image-tool image-tool--filled", {
+              "image-tool--stretched": block.data.stretched,
+              "image-tool--withBackground": block.data.withBackground,
+              "image-tool--withBorder": block.data.withBorder,
             })}
-            src={block.data.url}
-            alt={block.data.caption}
-          />
-        </div>
-        {block.data.caption && (
-          <div className="cdx-input cdx-simple-image__caption">
-            {block.data.caption}
+          >
+            <div className="image-tool__image">
+              <img
+                className="image-tool__image-picture"
+                src={block.data.url ?? block.data.file.url}
+                alt={block.data.caption}
+              />
+            </div>
+            <div className="cdx-input image-tool__caption">
+              {block.data.caption}
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      </a>
     );
-    {
-      /* return <img key={block.id} alt={block.data.caption} src={block.data.url} />; */
-    }
   }
 
   if (block.type === "list") {
@@ -117,6 +119,14 @@ function renderBlock(block: OutputBlockData, isSummary: boolean) {
 
   if (block.type === "telegram") {
     return <TelegramEmbed key={block.id} id={block.data.id} />;
+  }
+
+  if (block.type === "youtube") {
+    return <YoutubeEmbed key={block.id} id={block.data.id} />;
+  }
+
+  if (block.type === "reddit") {
+    return <RedditEmbed key={block.id} id={block.data.id} />;
   }
 
   return null;

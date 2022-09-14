@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { useVanillaTRPC } from "../../../utilities";
+import { useClientSideTRPC } from "../../../utilities";
 import { Field, Form, Input } from "../../form";
 import { Link } from "../../link";
 import { Spinner } from "../../spinner";
@@ -10,7 +10,7 @@ import { Spinner } from "../../spinner";
 import { SignInFormState } from "./sign-in-form.state";
 
 export const SignInForm = observer(() => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const router = useRouter();
   const [state] = useState(() => new SignInFormState(trpcClient, router));
   return (

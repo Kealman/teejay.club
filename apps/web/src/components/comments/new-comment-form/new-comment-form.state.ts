@@ -2,11 +2,11 @@ import { createCommentInput, InferInput } from "@teejay/api";
 import { makeAutoObservable } from "mobx";
 import { ChangeEvent, FormEvent } from "react";
 
-import { Task, VanillaTRPC } from "../../../utilities";
+import { Task, ClientSideTRPC } from "../../../utilities";
 
 class NewCommentFormState {
   constructor(
-    public readonly trpcClient: VanillaTRPC,
+    public readonly trpcClient: ClientSideTRPC,
     private postId: number,
     private onCreate?: () => void,
     private parentId?: number

@@ -6,7 +6,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
-import { classNames, trpc, useVanillaTRPC } from "../../../utilities";
+import {
+  classNames,
+  trpc,
+  useClientSideTRPC,
+  getAvatarUrl,
+} from "../../../utilities";
 import { Spinner } from "../../spinner";
 
 import { NewPostFormState } from "./new-post-form.state";
@@ -14,7 +19,7 @@ import { NewPostFormState } from "./new-post-form.state";
 const Editor = dynamic(() => import("../../editor").then((i) => i.Editor));
 
 export const NewPostForm = observer(() => {
-  const trpcClient = useVanillaTRPC();
+  const trpcClient = useClientSideTRPC();
   const userQuery = trpc.users.getMe.useQuery();
   const router = useRouter();
   const [state] = useState(() => new NewPostFormState(trpcClient, router));
@@ -46,11 +51,12 @@ export const NewPostForm = observer(() => {
                   "text-gray-900 transition-colors duration-300  cursor-pointer"
                 )}
               >
-                <Image
+                <img
+                  alt={state.subsite?.name ?? "Мой блог"}
                   className="w-6 h-6 rounded"
                   width={24}
                   height={24}
-                  src={state.subsite?.avatar ?? user.avatar}
+                  src={state.subsite?.avatar ?? getAvatarUrl(user.avatarId)}
                 />
                 {state.subsite?.name ?? "Мой блог"}
                 <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
@@ -78,11 +84,11 @@ export const NewPostForm = observer(() => {
                         "text-gray-900 hover:bg-gray-100 cursor-pointer"
                       )}
                     >
-                      <Image
+                      <img
                         className="w-6 h-6 rounded"
                         width={24}
                         height={24}
-                        src={user.avatar}
+                        src={getAvatarUrl(user.avatarId)}
                         alt={user.name}
                       />
                       Мой блог
