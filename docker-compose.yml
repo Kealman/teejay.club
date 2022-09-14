@@ -1,15 +1,29 @@
 version: '3'
 volumes:
   db:
+  images:
 services:
   postgres:
     image: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: teejay
     ports:
       - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
+    restart: always
+
+  minio:
+    image: minio/minio
+    command: mkdir -p /data/avatars && server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - images:/data
+    environment:
+      MINIO_ROOT_USER: aCLUKVib4wS8CF8W
+      MINIO_ROOT_PASSWORD: pRRxBEwGInDWV58f
     restart: always

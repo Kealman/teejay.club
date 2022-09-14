@@ -3,10 +3,11 @@ import { observer } from "mobx-react-lite";
 import { useMemo } from "react";
 
 import { classNames, useClientSideTRPC } from "../../../utilities";
+import { CommentOrChild } from "../type";
 
 import { CommentVoteState } from "./comment-vote.state";
 
-type Props = { comment: TComment };
+type Props = { comment: CommentOrChild };
 
 export const CommentVote = observer<Props>(({ comment }) => {
   const trpcClient = useClientSideTRPC();

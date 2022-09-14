@@ -2,11 +2,12 @@ import { TComment, TCommentVote } from "@teejay/api";
 import { makeAutoObservable } from "mobx";
 
 import { Task, ClientSideTRPC } from "../../../utilities";
+import { CommentOrChild } from "../type";
 
 export class CommentVoteState {
   constructor(
     public readonly trpcClient: ClientSideTRPC,
-    private _comment: TComment
+    private _comment: CommentOrChild
   ) {
     makeAutoObservable(this, { trpcClient: false }, { autoBind: true });
   }
@@ -15,7 +16,7 @@ export class CommentVoteState {
     return this._comment;
   }
 
-  private set comment(value: TComment) {
+  private set comment(value: CommentOrChild) {
     this._comment = value;
   }
 

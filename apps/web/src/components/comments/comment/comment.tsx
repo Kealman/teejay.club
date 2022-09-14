@@ -1,4 +1,3 @@
-import { TComment } from "@teejay/api";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -13,6 +12,7 @@ import { Link } from "../../link";
 import { CommentVote } from "../comment-vote";
 import CommentsState from "../comments/comments.state";
 import { NewCommentForm } from "../new-comment-form";
+import { CommentOrChild } from "../type";
 
 const RelativeDate = dynamic(
   () => import("../../relative-date").then((index) => index.RelativeDate),
@@ -20,7 +20,7 @@ const RelativeDate = dynamic(
 );
 
 type Props = {
-  comment: TComment;
+  comment: CommentOrChild;
   postId: number;
   state: CommentsState;
   level: number;
@@ -43,7 +43,7 @@ export const Comment = observer<Props>(
   }) => {
     const router = useRouter();
     const url = new URL(router.asPath, "http://teejay.club");
-    const [comment, setComment] = useState<TComment>(_comment);
+    const [comment, setComment] = useState<CommentOrChild>(_comment);
     const trpc = useClientSideTRPC();
 
     const handleMoreCommentsClick = () => {
@@ -174,7 +174,7 @@ export const Comment = observer<Props>(
                 />
               )}
 
-              {((!comment.children && comment._count.children !== 0) ||
+              {((!("children" in comment) && comment._count.children !== 0) ||
                 state.isChildHidden(comment.id)) && (
                 <div key={comment.id} className="flex flex-row">
                   <button
@@ -189,6 +189,7 @@ export const Comment = observer<Props>(
           </div>
         </div>
         {!state.isChildHidden(comment.id) &&
+          "children" in comment &&
           comment.children?.length !== 0 &&
           comment.children?.map((child, i) => {
             return (
